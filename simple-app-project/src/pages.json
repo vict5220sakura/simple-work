@@ -1,0 +1,108 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/login/login",
+			"style": {
+				"navigationStyle": "custom",
+				"disableScroll": true
+			}
+		},
+		{
+			"path": "pages/home/home",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTitleText": "首页"
+			}
+		},
+		{
+			"path": "pages/my/my",
+			"style": {
+				"navigationBarTitleText": "我的"
+			}
+		},
+		{
+			"path": "pages/learn/learnWebView",
+			"style": {
+				"navigationBarTitleText": "learnWebView"
+			}
+		},
+		{
+			"path": "pages/learn/learnUvUi",
+			"style": {
+				"navigationBarTitleText": "learnUvUi"
+			}
+		},
+		{
+			"path": "pages/learn/learnPopup",
+			"style": {
+				"navigationBarTitleText": "learnPopup"
+			}
+		},
+		{
+			"path": "pages/learn/learnPageFullHeight",
+			"style": {
+				"navigationStyle": "custom",
+				"disableScroll": true
+			}
+		},
+		{
+			"path": "pages/learn/learnEnv",
+			"style": {
+				"navigationBarTitleText": "learnEnv"
+			}
+		},
+		{
+			"path": "pages/learn/learnRequest",
+			"style": {
+				"navigationBarTitleText": "learnRequest"
+			}
+		},
+		{
+			"path": "pages/learn/learnHome",
+			"style": {
+				"navigationBarTitleText": "learnHome"
+			}
+		},
+		{
+			"path": "pages/learn/wsTest",
+			"style": {
+				"navigationBarTitleText": "wsTest"
+			}
+		},
+		{
+			"path": "pages/learn/logTest",
+			"style": {
+				"navigationBarTitleText": "logTest"
+			}
+		},
+		{
+			"path": "pages/my/setting/setting",
+			"style": {
+				"navigationBarTitleText": "设置"
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	} //,
+	// "tabBar": {
+	// 	"color": "#7A7E83",
+	// 	"selectedColor": "#3cc51f",
+	// 	"borderStyle": "black",
+	// 	"backgroundColor": "#ffffff",
+	// 	"list": [{
+	// 		"pagePath": "pages/home/home",
+	// 		"iconPath": "static/images/home.png",
+	// 		"selectedIconPath": "static/images/home_active.png",
+	// 		"text": "首页"
+	// 	}, {
+	// 		"pagePath": "pages/my/my",
+	// 		"iconPath": "static/images/my.png",
+	// 		"selectedIconPath": "static/images/my_active.png",
+	// 		"text": "我的"
+	// 	}]
+	// }
+}

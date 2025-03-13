@@ -1,0 +1,60 @@
+server:
+  port: 30001
+  servlet:
+    context-path: /simple-server/
+
+logging:
+  level:
+    root: info
+    com.dao.mapper: debug
+
+mybatis-plus:
+  mapper-locations:
+    - classpath*:mapper/*.xml
+    - classpath*:mapper/**/*.xml
+  #  mybatis-plus 配置 typeHandler
+  type-handlers-package: com.vict.framework.mybatishandler
+  configuration:
+    map-underscore-to-camel-case: true
+    # 打印dao日志
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+spring:
+  application:
+    name: simpleServer
+  main:
+    allow-bean-definition-overriding: true
+  profiles:
+    active: dev
+
+# 不需要登录权限url正则
+notAuthUrls:
+  ^/simple-server/api/test.*$,
+  ^/simple-server/api/bUserLogin/loginIn$,
+  ^/simple-server/api/util/qiniuToken$,
+  ^/simple-server/ws/.*$,
+  ^/simple-server/api/bUserLogin/isLogin,
+  ^/simple-server/api/keyValue/keyValueByKey,
+  ^/simple-server/api/customPage/customPageInfo,
+  ^/simple-server/api/customerLogin/appLoginIn,
+  ^/simple-server/api/customerLogin/getAppConfig,
+  ^/simple-server/api/customerLogin/isAppLogin,
+  ^/simple-server/api/applog/info$,
+
+# 不需要记录日志url正则
+notLogUrls:
+  ^/simple-server/api/applog/info$,
+
+# api统一前缀
+apiPath: /api
+
+# lock实现方式 redis jdk 需要配置redis才可以使用redis锁
+lockImpl: jdk
+
+# cache实现方式 redis jdk 需要配置redis才可以使用cache
+cacheImpl: jdk
+
+# count实现方式 redis jdk 需要配置redis才可以使用count
+countImpl: jdk
+
+

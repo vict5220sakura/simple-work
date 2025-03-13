@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vict.framework.task.dao.TaskExecuteInstanceDao" >
+
+
+    <update id="updateStatusById">
+        update task_execute_instance set status = #{status} where taskExecuteInstanceID = #{id}
+    </update>
+
+    <update id="updateExecuteCount">
+        update task_execute_instance set executeCount = #{executeCount} where taskExecuteInstanceID = #{id}
+    </update>
+
+    <select id="selectGroup" resultType="com.vict.framework.task.bean.entity.TaskExecuteInstance">
+        select SUBSTRING_INDEX(GROUP_CONCAT(t.taskExecuteInstanceID), ',', ${limit}) as taskExecuteInstanceIDList
+        from (
+            select l.* from (
+                select * from task_execute_instance as l
+                <where>
+                    <if test="serverName != null">
+                        serverName = #{serverName}
+                    </if>
+                    <choose>
+                        <when test="serverId != null">
+                            and serverId = #{serverId}
+                        </when>
+                        <otherwise>
+                            and (serverId is null or serverId = "")
+                        </otherwise>
+                    </choose>
+                    and type = #{type}
+                    and (status = 0 or status = 1)
+                    and actionTime <![CDATA[<=]]> #{now}
+                </where>
+                group by taskExecuteInstanceID
+                order by actionTime asc
+            ) as l
+        ) t
+    </select>
+
+</mapper>

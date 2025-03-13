@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vict.mapper.BuserMapper" >
+
+
+    <select id="selectMyList" resultType="com.vict.entity.Buser">
+        select * from buser
+        <if test="organizeId != null">
+            left join organize_buser on
+                organize_buser.organize_id = #{organizeId} and buser.id = organize_buser.buser_id
+        </if>
+        <where>
+            <if test="username != null and username != ''">
+                and buser.username like concat('%',#{username},'%')
+            </if>
+            <if test="buserCode != null and buserCode != ''">
+                and buser.buser_code like concat('%',#{buserCode},'%')
+            </if>
+            <if test="organizeId != null">
+                organize_buser.buser_id is not null
+            </if>
+        </where>
+        order by buser.id desc
+    </select>
+</mapper>

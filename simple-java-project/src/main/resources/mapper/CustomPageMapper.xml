@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vict.mapper.CustomPageMapper" >
+
+
+    <select id="selectMyList" resultType="com.vict.entity.CustomPage">
+        select * from custom_page
+        <where>
+            <if test="customName != null and customName != ''">
+                and custom_name like concat('%',#{customName},'%')
+            </if>
+        </where>
+        order by id desc
+    </select>
+</mapper>

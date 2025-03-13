@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vict.framework.job.mapper.JobHistoryMapper" >
+
+
+    <select id="list" resultType="com.vict.framework.job.entity.JobHistory">
+        select * from job_history
+        <where>
+            <if test="startTime != null">
+                and #{startTime} <![CDATA[<=]]> run_time
+            </if>
+            <if test="endTime != null">
+                and run_time <![CDATA[<=]]> #{endTime}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+        order by run_time desc
+    </select>
+</mapper>

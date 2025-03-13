@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vict.mapper.ImageMapper" >
+
+
+    <select id="selectMyList" resultType="com.vict.entity.Image">
+        select * from image
+        <where>
+            <if test="attname!=null">
+                and attname like concat('%',#{attname},'%')
+            </if>
+            <if test="imageType!=null">
+                and image_type = #{imageType}
+            </if>
+        </where>
+        order by order_num asc
+    </select>
+
+    <select id="selectUp" resultType="com.vict.entity.Image">
+        select * from image
+        where order_num <![CDATA[<]]> #{orderNum}
+        order by order_num desc
+        limit 1
+    </select>
+
+    <select id="selectDown" resultType="com.vict.entity.Image">
+        select * from image
+        where order_num <![CDATA[>]]> #{orderNum}
+        order by order_num asc
+        limit 1
+    </select>
+
+    <update id="setOrderNum">
+        update image
+        set order_num = #{orderNum}
+        where id = #{id}
+    </update>
+
+    <update id="changeImage">
+        UPDATE image AS t1
+        JOIN image AS t2 ON t1.id = #{id1} AND t2.id = #{id2}
+        SET t1.order_num = t2.order_num, t2.order_num = t1.order_num;
+    </update>
+
+    <update id="moveBatch">
+        UPDATE image as a
+        SET a.order_num = CASE
+        <foreach collection="images" item="image" index="index">
+            WHEN a.id = #{image.id} THEN #{image.orderNum}
+        </foreach>
+        ELSE null
+        END
+        WHERE a.id IN (<foreach collection="images" item="image" separator=",">#{image.id}</foreach>);
+    </update>
+
+    <select id="selectBatchForUpdate" resultType="com.vict.entity.Image">
+        select * from image
+        where id in (<foreach collection="ids" item="id" separator=",">#{id}</foreach>)
+        for update
+    </select>
+</mapper>

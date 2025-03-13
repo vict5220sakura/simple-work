@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="ON" packages="org.apache.logging.log4j.core,io.sentry.log4j2,com.vict.framework.log">
+    <appenders>
+
+        <!-- 打印日志到控制台 -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <!--<PatternLayout pattern="%d %-5level [%t] %c{1.}.%M(%L): %msg%n"/>-->
+            <PatternLayout pattern="%d %highlight{%-5level}{ERROR=Bright RED, WARN=Bright Yellow, INFO=Bright Green, DEBUG=Bright Cyan, TRACE=Bright White} %style{[%t]}{bright,magenta} %style{%c{1.}.%M(%L)}{cyan}: %msg%n"/>
+        </Console>
+
+        <!-- 打印日志到文件 -->
+        <RollingFile name="RollingFile" fileName="simple-logs/app.log"
+                     filePattern="simple-logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
+            <PatternLayout pattern="%d{yyyy.MM.dd 'at' HH:mm:ss z} %-5level %class{36} %L %M - %msg%xEx%n"/>
+            <SizeBasedTriggeringPolicy size="300 MB"/>
+        </RollingFile>
+
+        <!-- com.vict.framework.log.EsStatisticsMonitor 自定义处理, 如转存es, 转存日志到es -->
+        <EsStatistics name="StatisticsMonitor"
+                      failedOnLogLevel="ERROR"
+                      failedOnLogLevelCount="10"
+                      failedOnLogLevelInMisSecond="30000"
+                      recoveryOnLessLogLevelInMisSecond="120000"/>
+    </appenders>
+    <loggers>
+        <root level="INFO">
+            <appender-ref ref="Console"/>
+            <!-- 文本日志 -->
+            <!--<appender-ref ref="RollingFile"/>-->
+            <!-- es日志 需要配置 log.es -->
+            <appender-ref ref="StatisticsMonitor"/>
+        </root>
+    </loggers>
+</configuration>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vict.framework.utils.lock.dao.MysqlLockMapper" >
+
+    <delete id="deleteOverTime">
+        delete from mysql_lock where overtime <![CDATA[<=]]> #{now}
+    </delete>
+
+    <update id="expire">
+        update mysql_lock set overtime = #{overtime} where key = #{lockkey}
+    </update>
+</mapper>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vict.mapper.chinesepoetry.ChinesePoetryClassifyMapper" >
+
+
+    <select id="selectUp" resultType="com.vict.entity.chinesepoetry.ChinesePoetryClassify">
+        select * from chinese_poetry_classify
+        where order_num <![CDATA[<]]> #{orderNum}
+        order by order_num desc
+        limit 1
+    </select>
+    <select id="selectDown" resultType="com.vict.entity.chinesepoetry.ChinesePoetryClassify">
+        select * from chinese_poetry_classify
+        where order_num <![CDATA[>]]> #{orderNum}
+        order by order_num asc
+        limit 1
+    </select>
+
+    <update id="setOrderNum">
+        update chinese_poetry_classify
+        set order_num = #{orderNum}
+        where id = #{id}
+    </update>
+</mapper>

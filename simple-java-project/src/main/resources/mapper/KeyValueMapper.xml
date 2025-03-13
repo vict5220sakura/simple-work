@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vict.framework.keyvalue.mapper.KeyValueMapper" >
+
+    <insert id="insertOrUpdate">
+        insert into key_value values (#{id},#{key},#{value1},#{value2},#{desc},#{hiddenFlag})
+        ON DUPLICATE KEY UPDATE
+        <trim suffixOverrides=",">
+            <if test="value1 != null">value1 = #{value1},</if>
+            <if test="value2 != null">value2 = #{value2},</if>
+            <if test="desc != null">`desc` = #{desc},</if>
+            <if test="hiddenFlag != null">`hidden_flag` = #{hiddenFlag},</if>
+        </trim>
+    </insert>
+
+    <select id="getKeyValueByKey" resultType="com.vict.framework.keyvalue.entity.KeyValue">
+        select
+        *
+        from
+            key_value
+        where
+            `key` = #{key}
+    </select>
+    <select id="getKeyValueByKeys" resultType="com.vict.framework.keyvalue.entity.KeyValue">
+        select * from key_value where `key` in
+        <foreach collection="keys" item="key" open="(" separator="," close=")">
+            #{key}
+        </foreach>
+    </select>
+
+    <select id="selectMyList" resultType="com.vict.framework.keyvalue.entity.KeyValue">
+        select * from key_value
+        <where>
+            <if test="key != null and key != ''">
+                and `key` like concat('%',#{key},'%')
+            </if>
+            <if test="desc != null and desc != ''">
+                and `desc` like concat('%',#{desc},'%')
+            </if>
+            <if test="hiddenFlag != null">
+                <choose>
+                    <when test="hiddenFlag == 1">
+                        and `hidden_flag` = #{hiddenFlag}
+                    </when>
+                    <when test="hiddenFlag == 0">
+                        and (`hidden_flag` = #{hiddenFlag} or `hidden_flag` is null)
+                    </when>
+                </choose>
+            </if>
+        </where>
+        order by id desc
+    </select>
+
+</mapper>

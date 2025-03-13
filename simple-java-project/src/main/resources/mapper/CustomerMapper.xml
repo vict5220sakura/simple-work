@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vict.mapper.CustomerMapper" >
+
+    <select id="selectMyList" resultType="com.vict.entity.Customer">
+        select * from customer
+        <where>
+            <if test="customerName != null and customerName != ''">
+                and customer_name like concat('%',#{customerName},'%')
+            </if>
+            <if test="customerPhone != null and customerPhone != ''">
+                and customer_phone like concat('%',#{customerPhone},'%')
+            </if>
+        </where>
+    </select>
+</mapper>

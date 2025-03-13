@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vict.mapper.chinesepoetry.ChinesePoetryMapper" >
+
+
+    <select id="selectMyList" resultType="com.vict.entity.chinesepoetry.ChinesePoetry">
+        select * from chinese_poetry
+        <where>
+            <if test="title != null and title != ''">
+                and title like concat('%',#{title},'%')
+            </if>
+            <if test="author != null and author != ''">
+                and author like concat('%',#{author},'%')
+            </if>
+            <if test="classifyId != null">
+                and classify_id = #{classifyId}
+            </if>
+        </where>
+        order by order_num asc
+    </select>
+
+    <update id="moveClassify">
+        update chinese_poetry
+        set classify_id = #{idTo}
+        where classify_id = #{idDel}
+    </update>
+
+    <update id="changeChinesePoetryClassify">
+        update chinese_poetry
+        set classify_id = #{chinesePoetryClassifyId}
+        <where>
+            <choose>
+                <when test="chinesePoetryIds != null and chinesePoetryIds.size > 0">
+                    id in
+                    <foreach collection="chinesePoetryIds" item="item" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </when>
+                <otherwise>false</otherwise>
+            </choose>
+        </where>
+    </update>
+
+
+    <select id="selectUp" resultType="com.vict.entity.chinesepoetry.ChinesePoetry">
+        select * from chinese_poetry
+        where order_num <![CDATA[<]]> #{orderNum}
+        and classify_id = #{classifyId}
+        order by order_num desc
+        limit 1
+    </select>
+
+    <select id="selectDown" resultType="com.vict.entity.chinesepoetry.ChinesePoetry">
+        select * from chinese_poetry
+        where order_num <![CDATA[>]]> #{orderNum}
+        and classify_id = #{classifyId}
+        order by order_num asc
+        limit 1
+    </select>
+
+    <update id="setOrderNum">
+        update chinese_poetry
+        set order_num = #{orderNum}
+        where id = #{id}
+    </update>
+</mapper>
